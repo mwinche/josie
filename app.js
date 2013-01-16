@@ -8,6 +8,12 @@ var express = require('express'),
 var app = express();
 app.use("/", express.static(__dirname + '/static/'));
 
+// hack for getting results while tests are running
+app.use("/testSuite", function (req, res){
+	res.send("blahs");
+});
+
+
 var http = require('http');
 var server = http.createServer(app);
 server.listen(3000);
