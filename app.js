@@ -77,6 +77,8 @@ JosieView.prototype.handleChannelCreate = function (doc){
 			console.log(err.message);
 			return;
 		}
+		
+		console.log(this.name +"_sub", doc.type);
 		this.backend.emit('created', doc.model);
 	}.bind(this));
 }
@@ -87,6 +89,8 @@ JosieView.prototype.handleChannelDelete = function (doc){
 			console.log(err.message);
 			return;
 		}
+
+		console.log(this.name +"_sub", doc.type);
 		this.backend.emit('deleted', doc.model);
 	}.bind(this));
 }
@@ -103,8 +107,7 @@ JosieView.prototype.handleChannelUpdate = function (doc){
 			return;
 		}
 
-		console.log("CHNNEL", doc.type);
-		console.log(doc.model);
+		console.log(this.name +"_sub", doc.type);
 		this.backend.emit('updated', doc.model);
  	}.bind(this));
 }
@@ -138,9 +141,8 @@ JosieView.prototype.processRunModel = function (tmpModel) {
 }
 
 JosieView.prototype.update = function (){
-	console.log("UPDATEING", this);
+	console.log("UPDATING", this.name);
 	request(this.endPoint + 'api/json?depth=5', function (error, response, body) {
-		console.log("DONE", this);
 		if (!error && response.statusCode == 200) {
 			var jsonObj = JSON.parse(body),
 				rows = jsonObj.table.rows,
@@ -185,7 +187,11 @@ JosieView.prototype.update = function (){
 
 			}
 		}
+
+		console.log("DONE", this.name);
+		setTimeout(this.update.bind(this), 10000);
 	}.bind(this));
+
 }
 
 var josie = new Josie();

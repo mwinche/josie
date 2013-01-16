@@ -11,7 +11,7 @@ var RunRow = Backbone.Model.extend({
 var RunRows = Backbone.Collection.extend({
 
 	// Specify the backend with which to sync
-	backend: 'runRows_dev',
+	backend: 'runRows_rel',
 
 	model: RunRow,
 
@@ -56,6 +56,7 @@ var RunRowView = Backbone.View.extend({
 		this.el.setAttribute("data-total-failures", this.model.attributes.totalFailures);
 		this.el.setAttribute("data-commit-status", this.model.attributes.testSuites.Commit_dev ? this.model.attributes.testSuites.Commit_dev.result : "NOT_BUILT");
 		this.el.setAttribute("data-build-status", this.model.attributes.testSuites.BuildAtTask_dev ? this.model.attributes.testSuites.BuildAtTask_dev.result : "NOT_BUILT");
+		this.el.setAttribute("data-runid", this.model.attributes.runid);
 
 		if(this.model.attributes.running){
 			$(this.el).addClass("running");

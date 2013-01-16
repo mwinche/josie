@@ -45,6 +45,10 @@ h3{
 	background: #eee;
 }
 
+.josie-view .run:nth-child(odd) {
+	background: #fefefe;
+}
+
 .josie-view tr.run img.icon {
 	background: url('/images/icons/crowned-skull.svg');
 	width: 32px;
@@ -128,7 +132,6 @@ h3{
 .filter-pane.right {
 	right: 10px;
 }
-
 
 #josie-branches {
 	padding: 0 0 0 10px;
