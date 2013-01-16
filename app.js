@@ -16,10 +16,10 @@ app.use("/testSuite", function (req, res){
 
 var http = require('http');
 var server = http.createServer(app);
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
 
 console.log('http://localhost:3000/');
-mongoose.connect('mongodb://localhost/josie', function (err){
+mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/josie', function (err){
 	console.log("mongoose connected!!", err)
 });
 
@@ -44,7 +44,7 @@ var RunSchema = mongoose.Schema({
 });
 
 var mubsub = require('mubsub');
-var client = mubsub('mongodb://localhost:27017/josie');
+var client = mubsub(process.env.MONGO_URL || 'mongodb://localhost:27017/josie');
 
 var Josie = function (){
 	this.backends = {};
