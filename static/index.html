@@ -1,0 +1,74 @@
+<html>
+<head>
+
+	<!-- Templates -->
+	<script id="message-template" type="text/template">
+			<td>
+				Branch: <%= branch %><br />
+				Author: <%= author %>
+			</td>
+			<td>
+			<%= totalFailures %>
+			</td>
+
+			<% for(var label in includeSuites) { %>
+				<td <%= testSuites[includeSuites[label]] && testSuites[includeSuites[label]].running ? 'class="running"' : '' %>>
+				<%= testSuites[includeSuites[label]] ? testSuites[includeSuites[label]].failures : "?" %>
+				</td>
+			<% }; %>
+
+			<td>
+			<%= lastUpdated ? new Date(lastUpdated).toString() : "WTF!" %>
+			</td>
+	</script>
+	<script id="messages-template" type="text/template">
+			<thead>
+				<tr>
+					<th>Branch/Author</th>
+					<th>Total Fails</th>
+					<% for(var label in testSuites) { %>
+				  		<th><%= label%></th>
+					<% }; %>
+					<th>Last Updated</th>
+				</th>
+			</thead>
+			<tbody class="run-row-container"></tbody>
+	</script>
+	<script id="branch-template" type="text/template">
+		<input type="checkbox" name="<%= name %>" id="branch-<%= name %>" />
+		<label for="branch-<%= name %>"><%= name %></label>
+	</script>
+
+
+	<!-- Real Stuff -->
+	<title>Josie</title>
+	<link rel="stylesheet" type="text/css" href="/css/main.css" />
+
+</head>
+<body>
+	<div id="content-container">
+		<h1>Josie</h1>
+
+		<table id="josie-content"></table>
+		<div id="josie-branches"></div>
+	</div>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+	<script src="http://documentcloud.github.com/underscore/underscore.js"></script>
+	<script src="/js/backbone.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/socket.io/backbone.io.js"></script>
+	<script src="/js/josie.js"></script>
+
+	<script>
+		Backbone.io.connect();
+
+		$(function() {
+			window.josieRows = new RunRows();
+			window.josieRows.fetch();
+			new JosieView({ el: $('#josie-content'), collection: josieRows }).render();
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+body {
+	background: #333 url('/images/black_noise.jpg');
+	font-family: "Gill Sans","Trebuchet MS",Calibri,sans-serif;
+	font: 13px;
+}
+
+h1 {
+	color: #333;
+	margin-top: 0;
+}
+
+#content-container {
+	margin: 3em 6em;
+	background: #fff;
+	border-radius: 5px;
+	padding: 20px;
+
+}
+
+.josie-view {
+	width: 100%;
+	border-collapse:collapse;
+	background: #fff;
+	border: 1px solid #ddd;
+}
+
+.josie-view  thead {
+	background: #fefefe;
+	color: #666;
+}
+
+.josie-view  thead th,
+.josie-view .run td {
+	text-align: left;
+	padding: 5px 10px;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+
+.josie-view .run {
+	background: #eee;
+}
+
+.josie-view .run[data-total-failures='0'] {
+	background: #9f9;
+}
+
+.josie-view .run.running[data-total-failures='0']  {
+	background: #cfc;
+}
+
+.josie-view .run td.running {
+	background: orange;
+}
