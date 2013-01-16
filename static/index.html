@@ -4,6 +4,7 @@
 	<!-- Templates -->
 	<script id="message-template" type="text/template">
 			<td>
+				<img class="icon" />
 				Branch: <%= branch %><br />
 				Author: <%= author %>
 			</td>
@@ -35,7 +36,7 @@
 			<tbody class="run-row-container"></tbody>
 	</script>
 	<script id="branch-template" type="text/template">
-		<input type="checkbox" name="<%= name %>" id="branch-<%= name %>" />
+		<input type="checkbox" value="<%= name %>" id="branch-<%= name %>" />
 		<label for="branch-<%= name %>"><%= name %></label>
 	</script>
 
@@ -49,8 +50,22 @@
 	<div id="content-container">
 		<h1>Josie</h1>
 
+
+		<div class="view-options">
+			<a class="filter-link">Filters</a>
+		</div>
+		<div id="josie-filters">
+			<div class="filter-pane left">
+				<h3>Branches</h3>
+				<div id="josie-branches"></div>
+			</div>
+
+			<div class="filter-pane right">
+				<h3>Misc</h3>
+				<div id="josie-sss"></div>
+			</div>
+		</div>
 		<table id="josie-content"></table>
-		<div id="josie-branches"></div>
 	</div>
 
 

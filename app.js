@@ -37,14 +37,6 @@ var RunSchema = mongoose.Schema({
 	endPoint: String
 });
 
-// var RunModel = mongoose.model('RunModel', RunSchema);
-
-// var runRows = backboneio.createBackend();
-// runRows.use(backboneio.middleware.mongooseStore(RunModel));
-// backboneio.listen(server, { runRows: runRows });
-
-
-
 var mubsub = require('mubsub');
 var client = mubsub('mongodb://localhost:27017/josie');
 
@@ -116,7 +108,6 @@ JosieView.prototype.handleChannelUpdate = function (doc){
 		this.backend.emit('updated', doc.model);
  	}.bind(this));
 }
-
 
 JosieView.prototype.processRunModel = function (tmpModel) {
 	this.model.find({runid: tmpModel.runid}, function (err, result){
@@ -196,55 +187,6 @@ JosieView.prototype.update = function (){
 		}
 	}.bind(this));
 }
-
-
-
-// var channel = client.channel('mubsub');
-
-// channel.subscribe({ type: 'create' }, function(doc) {
-// 	RunModel.create(doc.model, function(err) {
-// 		if(err) {
-// 			console.log(err.message);
-// 			return;
-// 		}
-// 		console.log("CHNNEL", doc.type);
-
-// 		// console.log(doc.model);
-// 		runRows.emit('created', doc.model);
-// 	  });
-// });
-
-// channel.subscribe({ type: 'delete' }, function(doc) {
-// 	RunModel.remove( {_id: doc.model._id}, function(err) {
-// 		if(err) {
-// 			console.log(err.message);
-// 			return;
-// 		  }
-// 		console.log("CHNNEL", doc.type);
-
-// 		// console.log(doc.model);
-// 		runRows.emit('deleted', doc.model);
-// 	  });
-// });
-
-// channel.subscribe({ type: 'update' }, function(doc) {
-// 		var model = {};
-// 		for (var key in doc.model) {
-// 		  model[key] = doc.model[key];
-// 		}
-// 		delete model._id;
-// 		RunModel.update( { _id: doc.model._id }, { '$set': model }, function(err) {
-// 		if(err) {
-// 			console.log(err.message);
-// 			return;
-// 		}
-
-// 		console.log("CHNNEL", doc.type);
-// 		console.log(doc.model);
-// 		runRows.emit('updated', doc.model);
-// 	  });
-// });
-
 
 var josie = new Josie();
 for(var name in jenkinsViews){
