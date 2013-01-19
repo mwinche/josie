@@ -200,14 +200,12 @@ var BranchView = Backbone.View.extend({
 var BranchesView = Backbone.View.extend({
 
 	cssRules: {},
-	events: {
-		"change input": "handleCheckboxClick"
-	},
+	// events: {
+	// 	"change input": "handleCheckboxClick"
+	// },
 
 	initialize: function(options) {
 		this.collection.on('reset', this.render, this);
-
-		console.log(this.cssRules);
 	},
 
 	render: function() {
@@ -254,5 +252,5 @@ var BranchesView = Backbone.View.extend({
 
 	_addRule: function _addRule(rule){
 		return document.styleSheets[0].cssRules[document.styleSheets[0].insertRule(rule, document.styleSheets[0].length)];
-	},
+	}
 });
