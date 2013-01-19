@@ -1,16 +1,17 @@
 {
-  "name": "josie",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node app"
-  },
-  "dependencies": {
-    "backbone.io": "~0.3.1",
-    "express": "~3.0.0rc2",
-    "mongoose": "~3.0.1",
-    "mubsub": "~0.2.0",
-	"request": "2.12.x",
-	"JSON": "1.0.x"
-  }
+	"name": "josie",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node app"
+	},
+	"dependencies": {
+		"backbone.io": "0.3.2",
+		"express": "3.0.6",
+		"mongoose": "~3.0.1",
+		"mubsub": "~0.2.0",
+		"request": "2.12.x",
+		"JSON": "1.0.x",
+		"less-middleware": "*"
+	}
 }

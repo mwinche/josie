@@ -1,0 +1,112 @@
+body {
+	background: #333333 url('/images/black_noise.jpg');
+	font-family: "Gill Sans", "Trebuchet MS", Calibri, sans-serif;
+	font: 13px;
+}
+h1 {
+  color: #333;
+  margin-top: 0;
+}
+h3 {
+  margin: 0 0 10px 0;
+}
+#content-container {
+  margin: 3em 6em;
+  background: #fff;
+  border-radius: 5px;
+  padding: 20px;
+}
+.josie-view {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+.josie-view thead {
+  background: #fefefe;
+  color: #666;
+}
+.josie-view thead th,
+.josie-view .run td {
+  text-align: left;
+  padding: 5px 10px;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.josie-view .run {
+  background: #eee;
+}
+.josie-view .run:nth-child(odd) {
+  background: #fefefe;
+}
+.josie-view tr.run img.icon {
+  background: url('/images/icons/crowned-skull.svg');
+  width: 32px;
+  height: 32px;
+  border: none;
+  float: left;
+  display: block;
+  margin: 3px 9px 3px 0;
+}
+.josie-view tr.run[data-commit-status="NOT_BUILT"] img.icon {
+  background: url('/images/icons/vomiting.svg');
+}
+.josie-view tr.run.running[data-commit-status="NOT_BUILT"] img.icon {
+  background: url('/images/icons/mining.svg');
+}
+.josie-view tr.run[data-commit-status="FAILURE"] img.icon {
+  background: url('/images/icons/backstab.svg');
+}
+.josie-view tr.run[data-commit-status="SUCCESS"] img.icon {
+  background: url('/images/icons/holy-grail.svg');
+}
+.josie-view tr.run.running[data-build-status='SUCCESS'][data-total-failures='0'] img.icon {
+  background: url('/images/icons/sprint.svg');
+}
+.josie-view tr.run.running img.icon {
+  background: url('/images/icons/run.svg');
+}
+.josie-view tr.run[data-commit-status="SUCCESS"] {
+  background: #afa;
+}
+.josie-view .run.running[data-total-failures='0'] {
+  background: #cfc;
+}
+.josie-view .run td.running {
+  background: orange;
+}
+#josie-filters {
+  background: #fdfdfd;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  color: #444;
+  padding: 10px;
+  height: 200px;
+  position: relative;
+  display: none;
+}
+.view-options {
+  text-align: right;
+  margin: 0 10px;
+}
+.filter-link {
+  cursor: pointer;
+}
+.filter-pane {
+  overflow: auto;
+  width: 49%;
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+}
+.filter-pane.left {
+  left: 10px;
+}
+.filter-pane.right {
+  right: 10px;
+}
+#josie-branches {
+  padding: 0 0 0 10px;
+}
