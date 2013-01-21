@@ -11,7 +11,10 @@ var RunRow = Backbone.Model.extend({
 var RunRows = Backbone.Collection.extend({
 
 	// Specify the backend with which to sync
-	backend: 'runRows_rel',
+	backend: {
+		name: 'RecentRuns',
+		channel: "http://ci.attask.com/jenkins/view/Dev/"
+	},
 
 	model: RunRow,
 
@@ -34,7 +37,7 @@ var RunRowView = Backbone.View.extend({
 			"JBoss": "JBoss_dev",
 			"Firefox": "Firefox_dev",
 			"IE": "IE_dev"
-		},
+		}
 	},
 
 	initialize: function(options) {
@@ -57,6 +60,7 @@ var RunRowView = Backbone.View.extend({
 		this.el.setAttribute("data-commit-status", this.model.attributes.testSuites.Commit_dev ? this.model.attributes.testSuites.Commit_dev.result : "NOT_BUILT");
 		this.el.setAttribute("data-build-status", this.model.attributes.testSuites.BuildAtTask_dev ? this.model.attributes.testSuites.BuildAtTask_dev.result : "NOT_BUILT");
 		this.el.setAttribute("data-runid", this.model.attributes.runid);
+		this.el.setAttribute("data-channel", this.model.attributes.channel);
 
 		if(this.model.attributes.running){
 			$(this.el).addClass("running");
@@ -81,7 +85,7 @@ var JosieView = Backbone.View.extend({
 			"JBoss": "JBoss_dev",
 			"Firefox": "Firefox_dev",
 			"IE": "IE_dev"
-		},
+		}
 	},
 
 	initialize: function(options) {
@@ -124,7 +128,7 @@ var JosieView = Backbone.View.extend({
 			table = this.$('tbody'),
 			rendered = view.render().el;
 
-			this.branchCollection.addBranch(newRow.attributes.branch);
+//			this.branchCollection.addBranch(newRow.attributes.branch);
 
 		if(newRow.attributes.running && table.children().length ) {
 			table.find("tr.run").first().before(rendered);

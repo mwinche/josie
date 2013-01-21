@@ -6,7 +6,7 @@
 		"start": "node app"
 	},
 	"dependencies": {
-		"backbone.io": "0.3.2",
+		"backbone.io": "https://github.com/scttnlsn/backbone.io/tarball/master",
 		"express": "3.0.6",
 		"mongoose": "~3.0.1",
 		"mubsub": "~0.2.0",
