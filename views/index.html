@@ -1,0 +1,43 @@
+
+<div class="josie-view-container">
+	<h2 class="title">
+		<div class="right">
+			<span class="sub-title">Unmerged Commits: 12</span>
+			<span class="sub-title">Files Changed: 12</span>
+			<span class="sub-title">Lines changed: 12</span>
+		</div>
+
+
+		Team Aperture
+		<span class="sub-title">Drift 2056</span>
+
+	</h2>
+	<table id="josie-content"></table>
+</div>
+
+<div class="josie-view-container">
+	<h2 class="title">
+		Master
+	</h2>
+	<table id="master-content"></table>
+</div>
+<script>
+
+	$(function() {
+		Backbone.io.connect();
+
+		// hack to load templates then init page... very gross
+		// @todo make this less gross
+		$.ajax('/templates/run_view.html').success(function (content){
+			$("#template-container").append(content);
+
+			window.josieRows = new RunRows();
+			window.josieRows.fetch();
+			new JosieView({ el: $('#josie-content'), collection: josieRows, branch: "origin/dev/aperture", limit: 10}).render();
+			new JosieView({ el: $('#master-content'), collection: josieRows, branch: "origin/master", limit: 5}).render();
+		});
+
+//		var branchCollection = new BranchCollection();
+//		var branchesView = new BranchesView({ el: $('#josie-branches'), collection: branchCollection  });
+	});
+</script>

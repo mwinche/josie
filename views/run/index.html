@@ -1,0 +1,134 @@
+<h2 class="title">
+
+	<div class="right">
+		<span class="sub-title">Total Failing: <%= run.totalFailures %></span>
+	</div>
+
+	<%= title %>
+	<span class="sub-title">Branch: <%= run.branch %></span>
+	<span class="sub-title">Author: <%= run.author %></span>
+	<span class="sub-title">Git hash: <a href="http://git.ops.ut.us.attask.com/git/?p=attask.git;a=commitdiff;h=<%= run.commit %>"><%= run.commit.substr(0, 8) %></a></span>
+</h2>
+
+<% for(var i=0, len=run.jobs.length; i < len; i++){ var job = run.jobs[len]; %>
+
+<div class="josie-view-container">
+	<h3 class="title">
+		<%= job.projectName %>
+		<span class="sub-title">Total <%= job.failCount %></span>
+	</h3>
+	<table class="josie-view">
+		<thead>
+		<tr>
+		<th></th>
+		<th>Suite</th>
+		<th>Test</th>
+		</th>
+		</thead>
+		<tbody class="run-row-container">
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+
+		</tbody>
+	</table>
+</div>
+
+
+<% } %>
+
+<div class="josie-view-container">
+	<h3 class="title">
+		Failing Locals Tests
+		<span class="sub-title">Total 10</span>
+	</h3>
+	<table class="josie-view">
+		<thead>
+		<tr>
+		<th></th>
+		<th>Suite</th>
+		<th>Test</th>
+		</th>
+		</thead>
+		<tbody class="run-row-container">
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+
+		</tbody>
+	</table>
+</div>
+
+<div class="josie-view-container">
+	<h3 class="title">
+		Failing Firefox Tests
+		<span class="sub-title">Total 10</span>
+	</h3>
+	<table class="josie-view">
+		<thead>
+		<tr>
+		<th></th>
+		<th>Suite</th>
+		<th>Test</th>
+		</th>
+		</thead>
+		<tbody class="run-row-container">
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+		<tr class="run">
+			<td>X</td>
+			<td>Blah.blsh.asd.asda</td>
+			<td>testDefectiveCode</td>
+		</tr>
+
+		</tbody>
+	</table>
+</div>
+

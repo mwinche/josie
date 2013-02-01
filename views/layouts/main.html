@@ -1,0 +1,34 @@
+<html>
+<head>
+	<!-- Real Stuff -->
+	<title>Josie :: <%= title %></title>
+
+	<!-- Apparently I have learned nothing about performance -->
+	<!-- Libs -->
+	<script src="/js/jquery.js"></script>
+	<script src="/js/underscore.js"></script>
+	<script src="/js/backbone.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/socket.io/backbone.io.js"></script>
+
+	<!-- Plugins -->
+	<link rel="stylesheet" type="text/css" href="/plugins/modal/jquery.modal.css" />
+	<script src="/plugins/modal/jquery.modal.js"></script>
+
+	<!-- App Stuff -->
+	<link rel="stylesheet" type="text/css" href="/css/style.css" />
+	<script src="/js/josie.js"></script>
+
+</head>
+	<body>
+		<div id="layout-container">
+			<h1>Josie</h1>
+
+			<div id="content-container">
+				<%= content %>
+			</div>
+		</div>
+
+		<div id="template-container"></div>
+	</body>
+</html>

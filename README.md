@@ -1,9 +1,16 @@
-josie
-=====
+Josie - Jenkins Sexy Sister
+===========================
+*this is very much a work in progress*
 
-Jenkins Sexy Sister
+Goal
+----
+Make jenkins' results easy to understand.
 
-this is very much a work in progress
-it uses backbone.io, mongoose, and mubsub.
-
+Todo
+----
+1. Live updating individual run pages
+2. LDAP integration
+3. Open in intellij
+4. Ability to assign multiple branches to a team
+5. Add Drift score
 

@@ -6,12 +6,17 @@
 		"start": "node app"
 	},
 	"dependencies": {
+		"underscore": "1.4.3",
+		"backbone": "0.9.10",
 		"backbone.io": "https://github.com/scttnlsn/backbone.io/tarball/master",
 		"express": "3.0.6",
 		"mongoose": "~3.0.1",
 		"mubsub": "~0.2.0",
 		"request": "2.12.x",
-		"JSON": "1.0.x",
-		"less-middleware": "*"
+		"JSON": "1.0.x"
+	},
+
+	"devDependencies": {
+		"grunt-jsdoc-plugin": "0.1.4"
 	}
 }

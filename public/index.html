@@ -1,45 +1,12 @@
 <html>
 <head>
 
-	<!-- Templates -->
-	<script id="message-template" type="text/template">
-			<td>
-				<img class="icon" />
-				Branch: <%= branch %><br />
-				Author: <%= author %>
-			</td>
-			<td>
-			<%= totalFailures %>
-			</td>
 
-			<% for(var label in includeSuites) { %>
-				<td <%= testSuites[includeSuites[label]] && testSuites[includeSuites[label]].running ? 'class="running"' : '' %>>
-				<%= testSuites[includeSuites[label]] ? testSuites[includeSuites[label]].failures : "?" %>
-				</td>
-			<% }; %>
-
-			<td>
-			<%= lastUpdated ? new Date(lastUpdated).toString() : "WTF!" %>
-			</td>
-	</script>
-	<script id="messages-template" type="text/template">
-			<thead>
-				<tr>
-					<th>Branch/Author</th>
-					<th>Total Fails</th>
-					<% for(var label in testSuites) { %>
-				  		<th><%= label%></th>
-					<% }; %>
-					<th>Last Updated</th>
-				</th>
-			</thead>
-			<tbody class="run-row-container"></tbody>
-	</script>
 	<script id="branch-template" type="text/template">
 		<input type="checkbox" value="<%= name %>" id="branch-<%= name %>" />
 		<label for="branch-<%= name %>"><%= name %></label>
 	</script>
-
+	<script type="text/template" id="branches-template"></script>
 
 	<!-- Real Stuff -->
 	<title>Josie</title>
@@ -82,7 +49,9 @@
 		$(function() {
 			window.josieRows = new RunRows();
 			window.josieRows.fetch();
-			new JosieView({ el: $('#josie-content'), collection: josieRows }).render();
+			var branchCollection = new BranchCollection();
+			var branchesView = new BranchesView({ el: $('#josie-branches'), collection: branchCollection  });
+			new JosieView({ el: $('#josie-content'), collection: josieRows, branchesView: branchesView }).render();
 		});
 	</script>
 </body>
