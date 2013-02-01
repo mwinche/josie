@@ -13,7 +13,8 @@
 		"mongoose": "~3.0.1",
 		"mubsub": "~0.2.0",
 		"request": "2.12.x",
-		"JSON": "1.0.x"
+		"JSON": "1.0.x",
+		"consolidate": "0.7.0"
 	},
 
 	"devDependencies": {
