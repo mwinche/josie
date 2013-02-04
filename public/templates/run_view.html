@@ -36,3 +36,18 @@
 </thead>
 <tbody class="run-row-container"></tbody>
 </script>
+
+
+<script class="josie-view-container" id="branch-template" type="text/template">
+	<h2 class="title">
+		<div class="right">
+			<span class="sub-title">Unmerged Commits: <span class="num-commits"><%= numCommits %></span></span>
+			<span class="sub-title">Files Changed: <span class="files-changed"><%= filesChanged %></span></span>
+			<span class="sub-title">Lines changed: <span class="lines-changed"><%= linesChanged %></span></span>
+		</div>
+
+		<%= branch.name %>
+		<span class="sub-title">Drift <span class="drift"><%= drift %></span></span>
+	</h2>
+	<table class="table-view"></table>
+</script>

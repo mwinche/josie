@@ -1,42 +1,8 @@
-
-
-var BranchModel = Backbone.Model.extend({
-
-});
-
+var BranchModel = Backbone.Model.extend({});
 
 var BranchCollection = Backbone.Collection.extend({
 	model: BranchModel,
-
-	nameSpaceStr: null,
-
-	initialize: function(options) {
-
-	},
-
-	comparator: function(newBranch, existing) {
-
-		var s = [
-			newBranch.get("name"),
-			existing.get("name")
-		].sort();
-
-		return s.sort()[0] == newBranch.get("name") ? -1 : 1;
-	},
-
-	addBranch: function (branch){
-		if(this.where({name: branch}).length === 0){
-			this.add([{name: branch}]);
-
-			if(branch.indexOf('/') && !this.nameSpaceStr){
-				var commonNameSpace = branch.split("/");
-				commonNameSpace.pop();
-
-				this.nameSpaceStr = commonNameSpace.join("/");
-				this.add({name: this.nameSpaceStr});
-			}
-		}
-	}
+	backend: 'branch'
 });
 
 
@@ -47,8 +13,9 @@ var BranchView = Backbone.View.extend({
 	initialize: function(options) {
 		this.template = _.template($('#branch-template').html());
 
+		this.listenTo(this.model, "change", this.update, this);
 		this.model.on('change', function (){
-			this.render();
+			this.update();
 		}, this);
 
 	},
@@ -56,9 +23,55 @@ var BranchView = Backbone.View.extend({
 	render: function() {
 		var templateData = this.model.toJSON();
 		$(this.el).html(this.template(templateData));
+
+		new JosieView({
+			el: $(this.el).find(".table-view"),
+			collection: josieRows,
+			branch: "origin/" + this.model.get("branch").name,
+			limit: 10
+		}).render();
+//
+
 		return this;
+	},
+
+	update: function (){
+
+		console.log("UPDATE BRANCH INFO");
+
 	}
 });
+
+var TeamView = Backbone.View.extend({
+	branchViews: {},
+
+	initialize: function (options){
+
+		this.listenTo(this.collection, 'add', this.renderNewBranch);
+		this.listenTo(this.collection, 'reset', this.render);
+	},
+
+	render: function (){
+		this.collection.each(function(branch) {
+			this.renderNewBranch(branch);
+		}.bind(this));
+	},
+
+	renderNewBranch: function (branch){
+		var branchName = branch.get("branch").name;
+		if(~this.options.branches.indexOf(branchName)){
+
+			var newEl = $("<div></div>");
+			$(this.el).append(newEl)
+			this.branchViews[branchName] = new BranchView({
+				el: newEl,
+				model: branch
+			}).render();
+		}
+	}
+});
+
+
 
 
 var BranchesView = Backbone.View.extend({
@@ -134,7 +147,7 @@ var RunRow = Backbone.Model.extend({
 var RunRows = Backbone.Collection.extend({
 
 	// Specify the backend with which to sync
-	backend:  'josieRunBackend',
+	backend:  'runSummary',
 	model: RunRow,
 
 	initialize: function(options) {

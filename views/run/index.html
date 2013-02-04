@@ -10,7 +10,7 @@
 	<span class="sub-title">Git hash: <a href="http://git.ops.ut.us.attask.com/git/?p=attask.git;a=commitdiff;h=<%= run.commit %>"><%= run.commit.substr(0, 8) %></a></span>
 </h2>
 
-<% for(var i=0, len=run.jobs.length; i < len; i++){ var job = run.jobs[len]; %>
+<% if(run.jobs) for(var i=0, len=run.jobs.length; i < len; i++){ var job = run.jobs[i]; if(job.failCount == 0) continue; %>
 
 <div class="josie-view-container">
 	<h3 class="title">
@@ -26,109 +26,18 @@
 		</th>
 		</thead>
 		<tbody class="run-row-container">
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
+		<% for(var fi=0, flen=job.testFailures.length; fi < flen; fi++){ var failure = job.testFailures[fi]; %>
 
+		<tr class="run">
+			<td>X</td>
+			<td><%= failure.className %></td>
+			<td><%= failure.name %></td>
+		</tr>
+		<% } %>
 		</tbody>
 	</table>
 </div>
 
 
 <% } %>
-
-<div class="josie-view-container">
-	<h3 class="title">
-		Failing Locals Tests
-		<span class="sub-title">Total 10</span>
-	</h3>
-	<table class="josie-view">
-		<thead>
-		<tr>
-		<th></th>
-		<th>Suite</th>
-		<th>Test</th>
-		</th>
-		</thead>
-		<tbody class="run-row-container">
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
-
-		</tbody>
-	</table>
-</div>
-
-<div class="josie-view-container">
-	<h3 class="title">
-		Failing Firefox Tests
-		<span class="sub-title">Total 10</span>
-	</h3>
-	<table class="josie-view">
-		<thead>
-		<tr>
-		<th></th>
-		<th>Suite</th>
-		<th>Test</th>
-		</th>
-		</thead>
-		<tbody class="run-row-container">
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
-		<tr class="run">
-			<td>X</td>
-			<td>Blah.blsh.asd.asda</td>
-			<td>testDefectiveCode</td>
-		</tr>
-
-		</tbody>
-	</table>
-</div>
 

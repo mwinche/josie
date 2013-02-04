@@ -1,27 +1,12 @@
-
-<div class="josie-view-container">
-	<h2 class="title">
-		<div class="right">
-			<span class="sub-title">Unmerged Commits: 12</span>
-			<span class="sub-title">Files Changed: 12</span>
-			<span class="sub-title">Lines changed: 12</span>
-		</div>
-
-
-		Team Aperture
-		<span class="sub-title">Drift 2056</span>
-
-	</h2>
-	<table id="josie-content"></table>
+<div id="view-container"></div>
+<div id="master-view-container">
+	<h2>Master</h2>
+	<table id="master-view"></table>
 </div>
 
-<div class="josie-view-container">
-	<h2 class="title">
-		Master
-	</h2>
-	<table id="master-content"></table>
-</div>
 <script>
+	var team = <%= JSON.stringify( team)  %>;
+
 
 	$(function() {
 		Backbone.io.connect();
@@ -31,10 +16,23 @@
 		$.ajax('/templates/run_view.html').success(function (content){
 			$("#template-container").append(content);
 
+			var branchCollection = new BranchCollection();
+
+			new TeamView({
+				el: $("#view-container"),
+				branches: team.branches,
+				collection: branchCollection,
+				limit: 10
+			}).render();
+
+
+			branchCollection.fetch();
+
+
 			window.josieRows = new RunRows();
 			window.josieRows.fetch();
-			new JosieView({ el: $('#josie-content'), collection: josieRows, branch: "origin/dev/aperture", limit: 10}).render();
-			new JosieView({ el: $('#master-content'), collection: josieRows, branch: "origin/master", limit: 5}).render();
+//			new JosieView({ el: $('#josie-content'), collection: josieRows, branch: "origin/dev/aperture", limit: 10}).render();
+			new JosieView({ el: $('#master-view'), collection: josieRows, branch: "origin/master", limit: 5}).render();
 		});
 
 //		var branchCollection = new BranchCollection();
