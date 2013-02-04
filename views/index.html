@@ -31,8 +31,9 @@
 
 			window.josieRows = new RunRows();
 			window.josieRows.fetch();
+
 //			new JosieView({ el: $('#josie-content'), collection: josieRows, branch: "origin/dev/aperture", limit: 10}).render();
-			new JosieView({ el: $('#master-view'), collection: josieRows, branch: "origin/master", limit: 5}).render();
+			new JosieView({ el: $('#master-view'), viewKey: "omaster", collection: josieRows, branch: "origin/master", limit: 5}).render();
 		});
 
 //		var branchCollection = new BranchCollection();

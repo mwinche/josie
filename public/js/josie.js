@@ -28,6 +28,7 @@ var BranchView = Backbone.View.extend({
 			el: $(this.el).find(".table-view"),
 			collection: josieRows,
 			branch: "origin/" + this.model.get("branch").name,
+			viewKey: this.model.get("branch").name.match(/rel/) ? "rel" : "dev",
 			limit: 10
 		}).render();
 //
@@ -36,7 +37,6 @@ var BranchView = Backbone.View.extend({
 	},
 
 	update: function (){
-
 		console.log("UPDATE BRANCH INFO");
 
 	}
@@ -46,7 +46,6 @@ var TeamView = Backbone.View.extend({
 	branchViews: {},
 
 	initialize: function (options){
-
 		this.listenTo(this.collection, 'add', this.renderNewBranch);
 		this.listenTo(this.collection, 'reset', this.render);
 	},
@@ -59,13 +58,15 @@ var TeamView = Backbone.View.extend({
 
 	renderNewBranch: function (branch){
 		var branchName = branch.get("branch").name;
+		console.log(branchName)
 		if(~this.options.branches.indexOf(branchName)){
 
 			var newEl = $("<div></div>");
 			$(this.el).append(newEl)
 			this.branchViews[branchName] = new BranchView({
 				el: newEl,
-				model: branch
+				model: branch,
+				limit: this.options.limit
 			}).render();
 		}
 	}
@@ -267,10 +268,10 @@ var JosieView = Backbone.View.extend({
 			"IE": "IE_"
 		},
 		viewKey: "dev"
-
 	},
 
 	initialize: function(options) {
+		console.log(options.branch, options.viewKey);
 		window.ap = [];
 
 		this.branch = options.branch;
@@ -311,7 +312,7 @@ var JosieView = Backbone.View.extend({
 
 	renderNewRow: function (newRow){
 		if(newRow.get("branch") != this.branch || (this.limit && this.$('tbody').children()	.length >= this.limit)) return;
-		var view = new RunRowView({ model: newRow }),
+		var view = new RunRowView({ model: newRow , viewKey: this.options.viewKey}),
 			table = this.$('tbody'),
 			rendered = view.render().el;
 

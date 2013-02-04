@@ -6,11 +6,19 @@
 
 	<%= title %>
 	<span class="sub-title">Branch: <%= run.branch %></span>
-	<span class="sub-title">Author: <%= run.author %></span>
-	<span class="sub-title">Git hash: <a href="http://git.ops.ut.us.attask.com/git/?p=attask.git;a=commitdiff;h=<%= run.commit %>"><%= run.commit.substr(0, 8) %></a></span>
+
+	<% if(run.changeSet) for(var i=0, len=run.changeSet.length; i < len; i++) { var change = run.changeSet[i]; %>
+
+	<span title="<%= change.comment %>">
+		<span class="sub-title">
+			<%= change.author %>
+			<a href="http://git.ops.ut.us.attask.com/git/?p=attask.git;a=commitdiff;h=<%= change.commitHash %>"><%= change.commitHash.substr(0, 8) %></a></span>
+	</span>
+	<% } %>
+
 </h2>
 
-<% if(run.jobs) for(var i=0, len=run.jobs.length; i < len; i++){ var job = run.jobs[i]; if(job.failCount == 0) continue; %>
+<% if(run.jobs) for(var i=0, len=run.jobs.length; i < len; i++){ var job = run.jobs[i]; if(!job.testFailures || job.testFailures.length === 0) continue; %>
 
 <div class="josie-view-container">
 	<h3 class="title">
