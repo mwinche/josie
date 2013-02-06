@@ -58,8 +58,8 @@ var TeamView = Backbone.View.extend({
 
 	renderNewBranch: function (branch){
 		var branchName = branch.get("branch").name;
-		console.log(branchName)
-		if(~this.options.branches.indexOf(branchName)){
+		console.log(this.options.branches, branchName);
+		if(~this.options.branches.indexOf(branchName) && !this.branchViews[branchName]){
 
 			var newEl = $("<div></div>");
 			$(this.el).append(newEl)
@@ -271,7 +271,6 @@ var JosieView = Backbone.View.extend({
 	},
 
 	initialize: function(options) {
-		console.log(options.branch, options.viewKey);
 		window.ap = [];
 
 		this.branch = options.branch;

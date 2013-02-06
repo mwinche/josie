@@ -8,6 +8,10 @@
 	var team = <%= JSON.stringify( team)  %>;
 
 
+	window.josieRows = new RunRows();
+	window.josieRows.fetch();
+
+
 	$(function() {
 		Backbone.io.connect();
 
@@ -16,7 +20,9 @@
 		$.ajax('/templates/run_view.html').success(function (content){
 			$("#template-container").append(content);
 
+
 			var branchCollection = new BranchCollection();
+			branchCollection.fetch();
 
 			new TeamView({
 				el: $("#view-container"),
@@ -28,9 +34,6 @@
 
 			branchCollection.fetch();
 
-
-			window.josieRows = new RunRows();
-			window.josieRows.fetch();
 
 //			new JosieView({ el: $('#josie-content'), collection: josieRows, branch: "origin/dev/aperture", limit: 10}).render();
 			new JosieView({ el: $('#master-view'), viewKey: "omaster", collection: josieRows, branch: "origin/master", limit: 5}).render();
