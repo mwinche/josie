@@ -3,6 +3,7 @@ body {
 	font-family: "Gill Sans", "Trebuchet MS", Calibri, sans-serif;
 	font: 13px;
 }
+
 h1 {
 	color: #333;
 	margin-top: 0;
@@ -77,15 +78,17 @@ h3 {
 .josie-view tr.run.running img.icon {
 	background: url('/images/icons/run.svg');
 }
-.josie-view tr.run[data-commit-status="SUCCESS"] {
-	background: #afa;
-}
-.josie-view .run.running[data-total-failures='0'] {
-	background: #cfc;
-}
-.josie-view .run td.running {
-	background: orange;
-}
+
+/*.josie-view tr.run[data-commit-status="SUCCESS"] {*/
+	/*background: #afa;*/
+/*}*/
+/*.josie-view .run.running[data-total-failures='0'] {*/
+	/*background: #cfc;*/
+/*}*/
+/*.josie-view .run td.running {*/
+	/*background: orange;*/
+/*}*/
+
 #josie-filters {
 	background: #fdfdfd;
 	border: 1px solid #ddd;
@@ -155,16 +158,6 @@ h3 {
 #layout-container.dashboard h1 {
 	color: #fff;
 	margin-bottom: .3em;
-}
-
-.Aperture {
-	font-size: 0;
-}
-
-.Aperture .logo {
-	background: url(/images/teams/Aperture.svg);
-	width: 439px;
-	height: 120px;
 }
 
 .dashboard {
@@ -299,4 +292,68 @@ h3 {
 	right: 0px;
 	padding: 0px 30px;
 	overflow: auto;
+}
+
+
+/**
+ * Team CSS
+ */
+
+/* Aperture */
+.Aperture {
+	background: RGB(72, 70, 69) url('/images/darknoise.png');
+	color: #aaa;
+}
+
+.Aperture .box {
+	background: RGBA(38, 36, 34, .8);
+	padding: 0;
+}
+
+.Aperture h1{
+	font-size: 0;
+}
+
+.Aperture h1 .logo {
+	background: url(/images/teams/Aperture.svg);
+	width: 439px;
+	height: 120px;
+}
+
+.Aperture .run {
+	background: RGB(41, 41, 41);
+}
+
+.Aperture .run {
+	background: RGB(34, 34, 34);
+}
+
+.Aperture .run:nth-child(odd) {
+	background: RGB(41, 41, 41);
+}
+
+.Aperture .josie-view .run td {
+	text-align: left;
+	padding: 5px 10px;
+	border-left: 1px solid #333;
+	border-bottom: 1px solid #333;
+}
+
+.Aperture .josie-view {
+	border-radius: 6px;
+	background: #333;
+	border: 1px solid #333;
+}
+.Aperture .josie-view thead {
+	background: #333;
+}
+
+.Aperture .josie-view thead th {
+	color: #888;
+	border-left: 1px solid #222;
+	border-bottom: 1px solid #222;
+}
+
+.Aperture .josie-view thead th:first-child {
+	border-left: 1px solid #333;
 }

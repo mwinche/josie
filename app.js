@@ -40,18 +40,12 @@ var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
-
 mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/josie', function (err){
-
-
 	mongoose.connections[0].db.dropDatabase(function (){
 		console.log("DROP", arguments);
 		start();
 	});
-
 });
-
-
 
 function start (){
 	// init Josie
