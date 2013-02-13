@@ -185,6 +185,9 @@ h3 {
 	height: 42px;
 }
 
+.drift .branch {
+	margin: .2em;
+}
 
 [data-branch] .badge {
 	position: relative;
@@ -205,14 +208,14 @@ h3 {
 	content: "\002666";
 	color: #333;
 	background: RGB(233, 17, 0);
-	box-shadow: 0 0 3px 3px RGBA(166, 0, 2, .5);
+	box-shadow: 0 0 10px 1px RGBA(166, 0, 2, .5);
 }
 
 [data-branch*="/rel/"] .badge:after {
 	content: "\002660";
 	color: RGB(136, 92, 41);
 	background: #FFA923;
-	box-shadow: 0 0 3px 3px RGBA(255, 169, 35, .5);
+	box-shadow: 0 0 10px 1px RGBA(255, 169, 35, .5);
 }
 
 .run[data-branch] .badge:after {
@@ -278,8 +281,7 @@ h3 {
 }
 
 .drift [data-branch] .badge:after {
-	left:-1em;
-	top:.1em
+	left: -1.2em;
 }
 /*Overrides*/
 
