@@ -153,10 +153,15 @@ h3 {
 }
 
 #layout-container.dashboard h1 {
+	color: #fff;
+	margin-bottom: .3em;
+}
+
+.Aperture {
 	font-size: 0;
 }
 
-.logo.Aperture {
+.Aperture .logo {
 	background: url(/images/teams/Aperture.svg);
 	width: 439px;
 	height: 120px;
