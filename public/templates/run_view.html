@@ -1,37 +1,27 @@
 <!-- Templates -->
 <script id="message-template" type="text/template">
 	<td>
-		<a href="/run/<%= buildNumber %>" rel="modal:open"><img class="icon" src="/images/transparent.png" /></a>
-		Branch: <%= branch %><br />
-		Author: <%= author %>
+		<a href="/run/<%= buildNumber %>" rel="modal:open"><span class="badge"></span> <img class="icon" src="/images/transparent.png" /></a>
+		<%= author %>
 	</td>
 	<td><%= buildNumber %></td>
 
-	<td>
-		<%= totalFailures %>
-	</td>
 	<% for (var i = 0, len = includeSuites.length; i < len; i++ ) { var job = includeSuites[i]; %>
 
 	<td class="<%= job.running ? 'running' : '' %>" data-name="<%= job.projectName %>">
 		<%= job.failures %>
 	</td>
 	<% } %>
-
-	<td>
-		<%= typeof lastUpdated != "undefined" && lastUpdated ? new Date(lastUpdated).toString() : "WTF!" %>
-	</td>
 </script>
 
 <script id="messages-template" type="text/template">
 <thead>
 <tr>
-<th>Branch/Author</th>
+<th>Author</th>
 <th>run</th>
-<th>Total Fails</th>
 <% for(var label in jobs) { %>
 <th><%= label%></th>
 <% }; %>
-<th>Last Updated</th>
 </th>
 </thead>
 <tbody class="run-row-container"></tbody>

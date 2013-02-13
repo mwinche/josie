@@ -5,7 +5,6 @@ var BranchCollection = Backbone.Collection.extend({
 	backend: 'branch'
 });
 
-
 var BranchView = Backbone.View.extend({
 
 	tagName: 'div',
@@ -72,7 +71,40 @@ var TeamView = Backbone.View.extend({
 	}
 });
 
+var TeamDashboard = Backbone.View.extend({
+	branchView: null,
 
+	initialize: function (options){
+		this.listenTo(this.collection, 'add', this.renderNewBranch);
+		this.listenTo(this.collection, 'reset', this.render);
+
+		this.newEl = $("<table></table>");
+		$(this.el).append(this.newEl);
+
+
+		var len = this.options.branches.length;
+		while(len--){
+			var branch = this.options.branches[len];
+			if(!branch.match(/^origin/)){
+				this.options.branches[len] = "origin/"+branch;
+			}
+		}
+
+
+	},
+
+	render: function (){
+		this.branchView = new JosieView({
+			el: this.newEl,
+			collection: josieRows,
+			limit: this.options.limit,
+			filter: {
+				branch: this.options.branches,
+				running: true
+			}
+		}).render();
+	}
+});
 
 
 var BranchesView = Backbone.View.extend({
@@ -261,10 +293,10 @@ var JosieView = Backbone.View.extend({
 	className: "josie-view",
 	options: {
 		jobs: {
-			"Unit": "Unit_",
-			"Locals": "Locals_",
-			"JBoss": "JBoss_",
-			"Firefox": "Firefox_",
+			"Un": "Unit_",
+			"Lc": "Locals_",
+			"JB": "JBoss_",
+			"FF": "Firefox_",
 			"IE": "IE_"
 		},
 		viewKey: "dev"
@@ -309,8 +341,42 @@ var JosieView = Backbone.View.extend({
 		return this;
 	},
 
+	_validateFilters: function (newRow){
+		// filters
+		if(this.options.filter){
+			var keys = Object.keys(this.options.filter),
+				len = keys.length;
+
+			while(len--){
+				var val = this.options.filter[keys[len]],
+					rVal = newRow.get(keys[len]);
+
+				switch(typeof val){
+					case "boolean":
+						if(val !== rVal){
+							return false;
+						}
+						break;
+
+					case "object": //array
+						if(val.indexOf(rVal) === -1){
+							return false;
+						}
+						break;
+					default:
+						console.log(typeof val, rVal);
+				}
+			}
+		}
+
+		return true;
+	},
+
 	renderNewRow: function (newRow){
-		if(newRow.get("branch") != this.branch || (this.limit && this.$('tbody').children()	.length >= this.limit)) return;
+//		if(this.branch && (newRow.get("branch") != this.branch || (this.limit && this.$('tbody').children()	.length >= this.limit))) return;
+
+		if(!this._validateFilters(newRow)) return;
+
 		var view = new RunRowView({ model: newRow , viewKey: this.options.viewKey}),
 			table = this.$('tbody'),
 			rendered = view.render().el;

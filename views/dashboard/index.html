@@ -1,0 +1,75 @@
+
+<div class="drift">
+	<div data-branch="/dev/">
+		<span class="badge"></span>
+		<div class="meter">
+			<span class="filler" style="width: 35%"></span>
+		</div>
+	</div>
+	<div data-branch="/rel/">
+		<span class="badge"></span>
+		<div class="meter">
+			<span class="filler" style="width: 10%"></span>
+		</div>
+	</div>
+</div>
+
+<div id="view-container" class="box"></div>
+
+<div class="box half-widget left">
+
+	<div class="data-val">
+		Morale:
+		<span class="val">1</span>
+	</div>
+	<div class="data-val">
+		Number of Blocking:
+		<span class="val">1</span>
+	</div>
+	<div class="data-val">
+		Number of issues:
+		<span class="val">1</span>
+	</div>
+	<div class="data-val">
+		Number of issues > 60 Days:
+		<span class="val">1</span>
+	</div>
+	<div class="data-val">
+		Number of issues:
+		<span class="val">1</span>
+	</div>
+
+
+
+</div>
+<div class="box half-widget right">
+	poppet
+</div>
+<script>
+	var team = <%= JSON.stringify( team)  %>;
+	window.josieRows = new RunRows();
+	window.josieRows.fetch();
+
+	$(function() {
+		Backbone.io.connect();
+
+		// hack to load templates then init page... very gross
+		// @todo make this less gross
+		$.ajax('/templates/run_view.html').success(function (content){
+			$("#template-container").append(content);
+
+			var branchCollection = new BranchCollection();
+			branchCollection.fetch();
+
+			new TeamDashboard({
+				el: $("#view-container"),
+				branches: team.branches,
+				collection: branchCollection,
+				limit: 10
+			}).render();
+
+			branchCollection.fetch();
+		});
+
+	});
+</script>
