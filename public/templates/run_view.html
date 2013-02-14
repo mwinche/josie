@@ -44,7 +44,7 @@
 
 <script id="drift-meter-template" type="text/template">
 	<span class="badge"></span>
-	<div class="meter">
+	<div class="meter" title="<%= drift %> / <%= branch.team.driftThreshold %>">
 		<span class="filler" style="width: <%= driftPercent %>%"></span>
 	</div>
 </script>

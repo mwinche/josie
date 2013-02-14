@@ -1,4 +1,11 @@
-var TeamModel = Backbone.Model.extend({});
+var TeamModel = Backbone.Model.extend({
+	initialize: function (options){
+		this.on('all', function (){
+			console.log(this, arguments)
+		})
+	}
+});
+
 var TeamCollection = Backbone.Collection.extend({
 	model: TeamModel,
 	backend: 'team'
@@ -9,17 +16,27 @@ var DashboardIssueView = Backbone.View.extend({
 
 	initialize: function (options){
 		this.listenTo(this.collection, 'reset', this.render);
+		this.listenTo(this.collection, 'backend:update ', this.handleUpdate);
 		this.template = _.template($("#dashboard-issue-template").html());
 	},
 
-	render: function (){
+	handleUpdate: function (obj){
+		if(obj.name == this.options.team){
+			this._render(obj);
+		}
+	},
 
-		this.team = this.collection.where({name: this.options.team})[0];
-
-		var templateData = this.team.toJSON();
+	_render: function (templateData){
+		$(this.el).html("");
 		templateData.morale = 100 - (templateData.issueCount / 2) + (templateData.blockingIssueCount * 2) + (templateData.issueOverCount / 2);
 
 		$(this.el).html(this.template(templateData));
+	},
+
+	render: function (){
+		var team = this.collection.where({name: this.options.team})[0];
+		this._render(team.toJSON());
+		return this;
 	}
 });
 
@@ -28,21 +45,32 @@ var DashboardStoryView = Backbone.View.extend({
 
 	initialize: function (options){
 		this.listenTo(this.collection, 'reset', this.render);
+		this.listenTo(this.collection, 'backend:update ', this.handleUpdate);
 		this.template = _.template($("#dashboard-story-template").html());
 	},
 
-	render: function (){
+	handleUpdate: function (obj){
+		if(obj.name == this.options.team){
+			this._render(obj);
+		}
+	},
 
-		this.team = this.collection.where({name: this.options.team})[0];
+	_render: function (templateData){
+		$(this.el).html("");
 
-		var templateData = this.team.toJSON(),
-			len = templateData.activeStories.length;
+		var len = templateData.activeStories.length;
 
 		while(len--){
 			var data = templateData.activeStories[len];
 
 			$(this.el).append(this.template(data));
 		}
+	},
+
+	render: function (){
+		var team = this.collection.where({name: this.options.team})[0];
+		this._render(team.toJSON());
+		return this;
 	}
 });
 
@@ -52,14 +80,35 @@ var DriftMeter = Backbone.View.extend({
 	initialize: function (options){
 		this.template = _.template($("#drift-meter-template").html());
 		this.listenTo(this.model, "change", this.update, this);
+		this.listenTo(this.model, "all", function (e){console.log(e)}, this);
+		this.model.on('change', this.update, this);
+
+		this.model.on('all', function (v){
+			console.log(v)
+		})
+	},
+
+	getTemplateData: function (){
+
+		var templateData = this.model.toJSON();
+		templateData.driftPercent = 100 - (templateData.drift == 0 ? 0 : (templateData.drift / templateData.branch.team.driftThreshold) * 100);
+
+		return templateData;
 	},
 
 	render: function (){
-		var templateData = this.model.toJSON();
-		templateData.driftPercent = 100 - (templateData.drift == 0 ? 0 : (templateData.drift / templateData.branch.team.driftThreshold) * 100);
+		var templateData = this.getTemplateData();
 		this.el.setAttribute("data-branch", templateData.branch.name);
 		$(this.el).html(this.template(templateData));
 		return this;
+	},
+
+	update: function (){
+		console.log("update")
+
+		var templateData = this.getTemplateData();
+		$(this.el).findOne(".meter").attr('title', templateData + "/" + templateData.branch.team.driftThreshold);
+		$(this.el).findOne(".filler").css('width', templateData.driftPercent + "%");
 	}
 });
 
@@ -460,10 +509,12 @@ var JosieView = Backbone.View.extend({
 	renderNewRow: function (newRow){
 //		if(this.branch && (newRow.get("branch") != this.branch || (this.limit && this.$('tbody').children()	.length >= this.limit))) return;
 
-		if(!this._validateFilters(newRow)) return;
-
 		var buildNumber = newRow.get("buildNumber") * 1,
 			running = newRow.get("running");
+
+//		if(!this._validateFilters(newRow) || this.views[buildNumber]) return;
+		if(!this._validateFilters(newRow)) return;
+
 
 
 		if(this.options.onlyRunningLastSuccess === true && running === false){
