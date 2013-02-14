@@ -41,3 +41,46 @@
 	</h2>
 	<table class="table-view"></table>
 </script>
+
+<script id="drift-meter-template" type="text/template">
+	<span class="badge"></span>
+	<div class="meter">
+		<span class="filler" style="width: <%= driftPercent %>%"></span>
+	</div>
+</script>
+
+<script id="dashboard-issue-template" type="text/template">
+
+	<div class="data-row">
+		Morale
+		<div class="meter">
+			<div class="filler" style="width: <%= morale %>%"></div>
+		</div>
+	</div>
+
+	<div class="data-row">
+		Blocking Issues
+		<div class="value"><%= blockingIssueCount %></div>
+	</div>
+
+	<div class="data-row">
+		Issues over 60
+		<div class="value"><%= issueOverCount %></div>
+	</div>
+
+	<div class="data-row">
+		Issues
+		<div class="value"><%= issueCount %></div>
+	</div>
+</script>
+
+<script id="dashboard-story-template" type="text/template">
+
+	<div class="data-row">
+		<%= name %>
+		<div class="meter">
+			<div class="filler" style="width: <%= percentComplete %>%"></div>
+		</div>
+	</div>
+
+</script>

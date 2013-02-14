@@ -9,7 +9,11 @@ var express = require('express')
 	, underscore = require('underscore')._
 	, cons = require("consolidate")
 	, mongoose = require('mongoose')
-;
+	, prompt = require('prompt')
+	, request = require('request')
+	, JSON = require('JSON')
+
+	;
 
 var app = express();
 
@@ -37,10 +41,11 @@ app.use("/plugins", express.static(path.join(__dirname, '/public/plugins/')));
 app.use("/templates", express.static(path.join(__dirname, '/public/templates/')));
 
 var server = http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+//  console.log("Express server listening on port " + app.get('port'));
 });
 
 mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/josie', function (err){
+	console.log("DB", err)
 	mongoose.connections[0].db.dropDatabase(function (){
 		console.log("DROP", arguments);
 		start();
@@ -49,6 +54,39 @@ mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/josie', function 
 
 function start (){
 	// init Josie
-	var josieApp = require('./lib/JosieApp')(app, server, "http://ci.attask.com/jenkins/");
-}
+	console.log("START")
+	var schema = {
+		properties: {
+			attaskUser: {
+				message: 'AtTask user',
+				required: true
+			},
+			password: {
+				hidden: true
+			}
+		}
+	};
 
+	prompt.message = prompt.delimiter = "";
+	prompt.start();
+	prompt.get(schema, function (err, result) {
+
+		process.env.ATTASK_USER = result.attaskUser;
+		process.env.ATTASK_PASS = result.password;
+
+		request("https://hub.attask.com/attask/api/login?username=" + process.env.ATTASK_USER +"&password=" + process.env.ATTASK_PASS, function (err, resp, body){
+
+//		try {
+			var data = JSON.parse(body);
+			process.env.ATTASK_SESSION_ID = data.data.sessionID;
+			console.log("SessionID", process.env.ATTASK_SESSION_ID);
+			var josieApp = require('./lib/JosieApp')(app, server, "http://ci.attask.com/jenkins/");
+
+//		} catch (e){
+//			console.log(e);
+//			exit();
+//		}
+
+		});
+	});
+}

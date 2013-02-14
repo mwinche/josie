@@ -1,3 +1,86 @@
+var TeamModel = Backbone.Model.extend({});
+var TeamCollection = Backbone.Collection.extend({
+	model: TeamModel,
+	backend: 'team'
+});
+
+var DashboardIssueView = Backbone.View.extend({
+	team: null,
+
+	initialize: function (options){
+		this.listenTo(this.collection, 'reset', this.render);
+		this.template = _.template($("#dashboard-issue-template").html());
+	},
+
+	render: function (){
+
+		this.team = this.collection.where({name: this.options.team})[0];
+
+		var templateData = this.team.toJSON();
+		templateData.morale = 100 - (templateData.issueCount / 2) + (templateData.blockingIssueCount * 2) + (templateData.issueOverCount / 2);
+
+		$(this.el).html(this.template(templateData));
+	}
+});
+
+var DashboardStoryView = Backbone.View.extend({
+	team: null,
+
+	initialize: function (options){
+		this.listenTo(this.collection, 'reset', this.render);
+		this.template = _.template($("#dashboard-story-template").html());
+	},
+
+	render: function (){
+
+		this.team = this.collection.where({name: this.options.team})[0];
+
+		var templateData = this.team.toJSON(),
+			len = templateData.activeStories.length;
+
+		while(len--){
+			var data = templateData.activeStories[len];
+
+			$(this.el).append(this.template(data));
+		}
+	}
+});
+
+var DriftMeter = Backbone.View.extend({
+	className: "branch-drift",
+
+	initialize: function (options){
+		this.template = _.template($("#drift-meter-template").html());
+		this.listenTo(this.model, "change", this.update, this);
+	},
+
+	render: function (){
+		var templateData = this.model.toJSON();
+		templateData.driftPercent = 100 - (templateData.drift == 0 ? 0 : (templateData.drift / templateData.branch.team.driftThreshold) * 100);
+		this.el.setAttribute("data-branch", templateData.branch.name);
+		$(this.el).html(this.template(templateData));
+		return this;
+	}
+});
+
+var DriftView = Backbone.View.extend({
+
+	initialize: function (options){
+		this.listenTo(this.collection, 'reset', this.render);
+	},
+
+	render: function (){
+		var team = this.options.team;
+		this.collection.each(function (branch){
+			if(branch.get('branch').team.name == team){
+				$(this.el).append(new DriftMeter({
+					model: branch
+				}).render().el);
+			}
+		}, this);
+	}
+});
+
 var BranchModel = Backbone.Model.extend({});
 
 var BranchCollection = Backbone.Collection.extend({
@@ -57,7 +140,6 @@ var TeamView = Backbone.View.extend({
 
 	renderNewBranch: function (branch){
 		var branchName = branch.get("branch").name;
-		console.log(this.options.branches, branchName);
 		if(~this.options.branches.indexOf(branchName) && !this.branchViews[branchName]){
 
 			var newEl = $("<div></div>");
@@ -99,9 +181,10 @@ var TeamDashboard = Backbone.View.extend({
 			collection: josieRows,
 			limit: this.options.limit,
 			filter: {
-				branch: this.options.branches,
-				running: true
-			}
+				branch: this.options.branches
+			},
+
+			onlyRunningLastSuccess: true
 		}).render();
 	}
 });
@@ -164,8 +247,6 @@ var BranchesView = Backbone.View.extend({
 		return document.styleSheets[0].cssRules[document.styleSheets[0].insertRule(rule, document.styleSheets[0].length)];
 	}
 });
-
-
 
 var RunRow = Backbone.Model.extend({
 	idAttribute: "_id",
@@ -299,7 +380,8 @@ var JosieView = Backbone.View.extend({
 			"FF": "Firefox_",
 			"IE": "IE_"
 		},
-		viewKey: "dev"
+		viewKey: "dev",
+		onlyRunningLastSuccess: false
 	},
 
 	initialize: function(options) {
@@ -372,12 +454,32 @@ var JosieView = Backbone.View.extend({
 		return true;
 	},
 
+	views: {},
+	myMaxBuild: 0,
+
 	renderNewRow: function (newRow){
 //		if(this.branch && (newRow.get("branch") != this.branch || (this.limit && this.$('tbody').children()	.length >= this.limit))) return;
 
 		if(!this._validateFilters(newRow)) return;
 
-		var view = new RunRowView({ model: newRow , viewKey: this.options.viewKey}),
+		var buildNumber = newRow.get("buildNumber") * 1,
+			running = newRow.get("running");
+
+
+		if(this.options.onlyRunningLastSuccess === true && running === false){
+			if(buildNumber >= this.myMaxBuild){
+				if(this.myMaxBuild > 0){
+					this.views[this.myMaxBuild].remove();
+					this.views[this.myMaxBuild] = null;
+					delete this.views[this.myMaxBuild];
+				}
+				this.myMaxBuild = buildNumber;
+			} else {
+				return;
+			}
+		}
+
+		var view = this.views[buildNumber] = new RunRowView({ model: newRow , viewKey: this.options.viewKey}),
 			table = this.$('tbody'),
 			rendered = view.render().el;
 

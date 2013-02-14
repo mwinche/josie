@@ -141,6 +141,7 @@ h3 {
 	background: #FEE37C !important;
 }
 
+
 .box {
 	border-radius: 6px;
 	background: #fff;
@@ -178,7 +179,7 @@ h3 {
 	height: 42px;
 }
 
-.drift .branch {
+.drift .branch-drift {
 	margin: .2em;
 }
 
@@ -261,9 +262,26 @@ h3 {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4635', endColorstr='#b70000',GradientType=0 ); /* IE6-9 */
 }
 
+.data-row {
+	margin:.5em;
+}
+
+.data-row .value {
+	float: right;
+}
+
+.data-row .meter {
+	float: right;
+	height: .75em;
+}
+
+.data-row .meter .filler {
+	height: .75em;
+}
+
 .half-widget {
 	display: inline-block;
-	width: 46%;
+	width: 49%;
 }
 
 .drift {
